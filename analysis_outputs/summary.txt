@@ -58,3 +58,17 @@ Top categorical values (top 5):
 - AccountType: Assets (20110); Revenue (8540); Expenses (7113); Liabilities (2142)
 - AccountClass: Cash (16770); SG&A (4033); Sales-Hotel (3892); Sales-Dining (2884); Inventory (2871)
 - GLAccountName: Operating Bank Account (16770); Rents - Hotels (3892); Sales - Dining Halls (2884); Food Service Inventory (2685); Supplies and Materials (2066)
+
+Benford's Law (Amount first digit):
+- Sample size: 37,905
+- Chi-square statistic: 800.10
+  Digit | Observed | Expected
+      1 |   11,449 | 11410.54
+      2 |    6,943 |  6674.74
+      3 |    4,464 |  4735.80
+      4 |    3,435 |  3673.37
+      5 |    2,825 |  3001.37
+      6 |    2,381 |  2537.62
+      7 |    1,882 |  2198.18
+      8 |    1,716 |  1938.94
+      9 |    2,810 |  1734.44

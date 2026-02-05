@@ -10,7 +10,8 @@ This repo includes a repeatable, no-dependency analysis workflow for journal ent
 python analysis/je_basic_analysis.py
 ```
 
-By default, the script reads `je_samples.xlsx` and writes artifacts to `analysis_outputs/`.
+By default, the script reads `je_samples.xlsx` and writes artifacts to `analysis_outputs/`
+(including summary statistics, a histogram, and a Benford's Law chart for amount digits).
 You can override the input and output locations:
 
 ```bash

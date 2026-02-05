@@ -116,6 +116,33 @@ def describe_numeric(values: list[float]) -> dict[str, float]:
     }
 
 
+def first_digit(value: float) -> int | None:
+    if value is None or not math.isfinite(value):
+        return None
+    value = abs(value)
+    if math.isclose(value, 0.0):
+        return None
+    while value < 1:
+        value *= 10
+    while value >= 10:
+        value /= 10
+    digit = int(value)
+    return digit if 1 <= digit <= 9 else None
+
+
+def benford_expected_counts(total: int) -> list[float]:
+    return [total * math.log10(1 + 1 / d) for d in range(1, 10)]
+
+
+def chi_square_statistic(observed: list[int], expected: list[float]) -> float:
+    stat = 0.0
+    for obs, exp in zip(observed, expected):
+        if exp <= 0:
+            continue
+        stat += (obs - exp) ** 2 / exp
+    return stat
+
+
 def svg_bar_chart(labels: list[str], values: list[int], title: str, path: Path) -> None:
     width, height = 900, 450
     margin = 60
@@ -144,6 +171,57 @@ def svg_bar_chart(labels: list[str], values: list[int], title: str, path: Path) 
         f"<text x='{width / 2}' y='30' text-anchor='middle' font-size='16' font-family='sans-serif'>{title}</text>",
         f"<line x1='{margin}' y1='{margin}' x2='{margin}' y2='{height - margin}' stroke='black' />",
         f"<line x1='{margin}' y1='{height - margin}' x2='{width - margin}' y2='{height - margin}' stroke='black' />",
+        *bars,
+        "</svg>",
+    ]
+    path.write_text("\n".join(svg), encoding="utf-8")
+
+
+def svg_benford_chart(
+    labels: list[str],
+    observed: list[int],
+    expected: list[float],
+    title: str,
+    path: Path,
+) -> None:
+    width, height = 900, 450
+    margin = 60
+    chart_width = width - 2 * margin
+    chart_height = height - 2 * margin
+    max_val = max([*observed, *expected]) if observed else 1
+
+    bars = []
+    for i, label in enumerate(labels):
+        bar_group = chart_width / len(labels)
+        x = margin + i * bar_group
+        observed_height = (observed[i] / max_val) * chart_height
+        expected_height = (expected[i] / max_val) * chart_height
+        observed_y = margin + (chart_height - observed_height)
+        expected_y = margin + (chart_height - expected_height)
+        bars.append(
+            f"<rect x='{x + 5:.1f}' y='{expected_y:.1f}' width='{bar_group * 0.4:.1f}' height='{expected_height:.1f}' fill='#9ecae9' />"
+        )
+        bars.append(
+            f"<rect x='{x + bar_group * 0.5:.1f}' y='{observed_y:.1f}' width='{bar_group * 0.4:.1f}' height='{observed_height:.1f}' fill='#4c78a8' />"
+        )
+        bars.append(
+            f"<text x='{x + bar_group * 0.5:.1f}' y='{height - margin + 20}' font-size='10' text-anchor='middle'>{label}</text>"
+        )
+
+    legend_y = margin - 25
+    legend = [
+        f"<rect x='{margin}' y='{legend_y}' width='14' height='14' fill='#9ecae9' />",
+        f"<text x='{margin + 20}' y='{legend_y + 12}' font-size='12'>Expected</text>",
+        f"<rect x='{margin + 120}' y='{legend_y}' width='14' height='14' fill='#4c78a8' />",
+        f"<text x='{margin + 140}' y='{legend_y + 12}' font-size='12'>Observed</text>",
+    ]
+
+    svg = [
+        f"<svg xmlns='http://www.w3.org/2000/svg' width='{width}' height='{height}'>",
+        f"<text x='{width / 2}' y='30' text-anchor='middle' font-size='16' font-family='sans-serif'>{title}</text>",
+        f"<line x1='{margin}' y1='{margin}' x2='{margin}' y2='{height - margin}' stroke='black' />",
+        f"<line x1='{margin}' y1='{height - margin}' x2='{width - margin}' y2='{height - margin}' stroke='black' />",
+        *legend,
         *bars,
         "</svg>",
     ]
@@ -219,6 +297,7 @@ def main() -> None:
     summary_path = output_dir / "summary.txt"
     source_chart_path = output_dir / "source_counts.svg"
     amount_hist_path = output_dir / "amount_histogram.svg"
+    benford_chart_path = output_dir / "benford_amounts.svg"
 
     table = read_sheet(args.input)
     header = table[0]
@@ -284,8 +363,6 @@ def main() -> None:
             formatted = "; ".join([f"{val} ({count})" for val, count in top_counts])
             summary_lines.append(f"- {name}: {formatted}")
 
-    summary_path.write_text("\n".join(summary_lines), encoding="utf-8")
-
     # Charts
     source_values = [v.strip() for v in columns.get("Source", []) if v.strip()]
     if source_values:
@@ -298,6 +375,31 @@ def main() -> None:
     amount_values = [v for v in amount_values if v is not None]
     if amount_values:
         svg_histogram(amount_values, "Amount Distribution (Histogram)", amount_hist_path)
+
+    benford_digits = [first_digit(v) for v in amount_values]
+    benford_digits = [d for d in benford_digits if d is not None]
+    if benford_digits:
+        counts = Counter(benford_digits)
+        observed = [counts.get(d, 0) for d in range(1, 10)]
+        total = sum(observed)
+        expected = benford_expected_counts(total)
+        chi_square = chi_square_statistic(observed, expected)
+        summary_lines.append("")
+        summary_lines.append("Benford's Law (Amount first digit):")
+        summary_lines.append(f"- Sample size: {total:,}")
+        summary_lines.append(f"- Chi-square statistic: {chi_square:.2f}")
+        summary_lines.append("  Digit | Observed | Expected")
+        for digit, obs, exp in zip(range(1, 10), observed, expected):
+            summary_lines.append(f"  {digit:>5} | {obs:>8,} | {exp:>8.2f}")
+        svg_benford_chart(
+            [str(d) for d in range(1, 10)],
+            observed,
+            expected,
+            "Benford's Law: Amount First Digit (Observed vs Expected)",
+            benford_chart_path,
+        )
+
+    summary_path.write_text("\n".join(summary_lines), encoding="utf-8")
 
 
 if __name__ == "__main__":
