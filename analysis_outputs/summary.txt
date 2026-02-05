@@ -1,0 +1,60 @@
+Basic Journal Entry (JE) Analysis
+================================
+Total rows (excluding header): 37905
+Total columns: 30
+
+Column overview:
+- JEEntryKey: non-empty=37,905, empty=0, unique=18,951
+- JENumber: non-empty=37,905, empty=0, unique=18,951
+- JEIdentifier: non-empty=37,905, empty=0, unique=18,951
+- GLAccountNumber: non-empty=37,905, empty=0, unique=74
+- BLANK: non-empty=0, empty=37,905, unique=0
+- EffectiveDate: non-empty=37,905, empty=0, unique=492
+- Period: non-empty=37,905, empty=0, unique=24
+- EntryDate: non-empty=37,905, empty=0, unique=719
+- PreparerID: non-empty=37,905, empty=0, unique=15
+- Source: non-empty=37,905, empty=0, unique=14
+- BusinessUnit: non-empty=37,905, empty=0, unique=9
+- JEDescription: non-empty=37,905, empty=0, unique=3,065
+- Debit: non-empty=18,952, empty=18,953, unique=12,014
+- Credit: non-empty=18,954, empty=18,951, unique=12,016
+- Amount: non-empty=37,905, empty=0, unique=24,011
+- AbsoluteAmount: non-empty=0, empty=37,905, unique=0
+- SysManInd: non-empty=0, empty=37,905, unique=0
+- UserDefined1: non-empty=0, empty=37,905, unique=0
+- UserDefined2: non-empty=0, empty=37,905, unique=0
+- UserDefined3: non-empty=0, empty=37,905, unique=0
+- PeriodFlag: non-empty=0, empty=37,905, unique=0
+- AccountType: non-empty=37,905, empty=0, unique=4
+- AccountClass: non-empty=37,905, empty=0, unique=18
+- GLAccountStartingBalance: non-empty=3, empty=37,902, unique=1
+- GLAccountEndingBalance: non-empty=0, empty=37,905, unique=0
+- SortOrder: non-empty=0, empty=37,905, unique=0
+- GLAccountName: non-empty=37,905, empty=0, unique=73
+- Category: non-empty=0, empty=37,905, unique=0
+- Marked: non-empty=0, empty=37,905, unique=0
+- MarkedInReport: non-empty=0, empty=37,905, unique=0
+
+Date ranges:
+- EffectiveDate: 2014-07-01 to 2016-06-30 (count=37,905)
+- Period: 2015-01-01 to 2016-12-01 (count=37,905)
+- EntryDate: 2014-06-25 to 2016-06-30 (count=37,905)
+
+Numeric summaries (auto-detected):
+- JEEntryKey: min=20151.00, max=20169568.00, mean=18228372.99, median=20158478.00, sum=690946478235.00
+- JENumber: min=20151.00, max=20169568.00, mean=18228372.99, median=20158478.00, sum=690946478235.00
+- JEIdentifier: min=20151.00, max=20169568.00, mean=18228372.99, median=20158478.00, sum=690946478235.00
+- GLAccountNumber: min=11845.00, max=86200.00, mean=29372.43, median=14260.00, sum=1111746289.00
+- EffectiveDate: min=41821.00, max=42551.00, mean=42196.87, median=42194.00, sum=1599472527.00
+- EntryDate: min=41815.00, max=42551.00, mean=42195.87, median=42194.00, sum=1599434583.00
+- Amount: min=-318505.80, max=318505.80, mean=0.00, median=-0.05, sum=0.00
+
+Top categorical values (top 5):
+- GLAccountNumber: 11845 (16770); 43180 (3892); 43310 (2884); 14260 (2684); 71400 (2066)
+- Period: 2016-12 (1949); 2016-09 (1928); 2016-11 (1914); 2015-04 (1832); 2015-10 (1764)
+- PreparerID: POS (7892); GUESTSYS (6826); Victoria Simpson|Accounting Manager (6144); Carolyn Slater|Food Operations Manager (5658); Elizabeth Rees|Food Operations Manager (4444)
+- Source: CREDIT CARD RECEIPT (10263); CHECK (9776); CASH RECEIPT (6221); PURCHASE CARD (5276); PAYROLL S/B JV (3936)
+- BusinessUnit: FOOD SERVICE (18010); HOTEL (11648); HOTEL PANTRY (3290); HOUSEKEEPING (2506); MAINTENANCE (1961)
+- AccountType: Assets (20110); Revenue (8540); Expenses (7113); Liabilities (2142)
+- AccountClass: Cash (16770); SG&A (4033); Sales-Hotel (3892); Sales-Dining (2884); Inventory (2871)
+- GLAccountName: Operating Bank Account (16770); Rents - Hotels (3892); Sales - Dining Halls (2884); Food Service Inventory (2685); Supplies and Materials (2066)

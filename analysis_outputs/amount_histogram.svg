@@ -1,0 +1,25 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='900' height='450'>
+<text x='450.0' y='30' text-anchor='middle' font-size='16' font-family='sans-serif'>Amount Distribution (Histogram)</text>
+<line x1='60' y1='60' x2='60' y2='390' stroke='black' />
+<line x1='60' y1='390' x2='840' y2='390' stroke='black' />
+<rect x='60.0' y='390.0' width='35.1' height='0.0' fill='#f58518' />
+<rect x='99.0' y='390.0' width='35.1' height='0.0' fill='#f58518' />
+<rect x='138.0' y='390.0' width='35.1' height='0.0' fill='#f58518' />
+<rect x='177.0' y='390.0' width='35.1' height='0.0' fill='#f58518' />
+<rect x='216.0' y='389.9' width='35.1' height='0.1' fill='#f58518' />
+<rect x='255.0' y='389.8' width='35.1' height='0.2' fill='#f58518' />
+<rect x='294.0' y='389.4' width='35.1' height='0.6' fill='#f58518' />
+<rect x='333.0' y='388.9' width='35.1' height='1.1' fill='#f58518' />
+<rect x='372.0' y='387.4' width='35.1' height='2.6' fill='#f58518' />
+<rect x='411.0' y='60.0' width='35.1' height='330.0' fill='#f58518' />
+<rect x='450.0' y='60.0' width='35.1' height='330.0' fill='#f58518' />
+<rect x='489.0' y='387.4' width='35.1' height='2.6' fill='#f58518' />
+<rect x='528.0' y='388.9' width='35.1' height='1.1' fill='#f58518' />
+<rect x='567.0' y='389.4' width='35.1' height='0.6' fill='#f58518' />
+<rect x='606.0' y='389.8' width='35.1' height='0.2' fill='#f58518' />
+<rect x='645.0' y='389.9' width='35.1' height='0.1' fill='#f58518' />
+<rect x='684.0' y='390.0' width='35.1' height='0.0' fill='#f58518' />
+<rect x='723.0' y='390.0' width='35.1' height='0.0' fill='#f58518' />
+<rect x='762.0' y='390.0' width='35.1' height='0.0' fill='#f58518' />
+<rect x='801.0' y='390.0' width='35.1' height='0.0' fill='#f58518' />
+</svg>
